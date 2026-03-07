@@ -1,0 +1,5 @@
+# Generated slide outputs
+talks/*/dist/
+
+# Temporary files
+.tmp/
