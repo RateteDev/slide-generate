@@ -1,0 +1,458 @@
+@import 'default';
+
+:root {
+    --bg: #0a0b0d;
+    --bg-soft: #14161a;
+    --fg: #f5f7fa;
+    --muted: #a3aab4;
+    --line: rgba(255, 255, 255, 0.24);
+    --accent: #d4d9e1;
+    --code-bg: #0d0f12;
+    --quote-bg: rgba(255, 255, 255, 0.03);
+    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --icon-url: url('https://assets.ratete.dev/images/profile/icon.png');
+    --content-max-width: 1020px;
+}
+
+section {
+    position: relative;
+    box-sizing: border-box;
+    width: 1280px;
+    height: 720px;
+    padding: 122px 78px 74px 78px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.05), transparent 22%),
+        linear-gradient(145deg, #14171b 0%, #0b0c0f 58%, #07080a 100%);
+    color: var(--fg);
+    font-family: "Aptos", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 29px;
+    line-height: 1.4;
+}
+
+/* Header */
+header {
+    position: absolute;
+    top: 40px;
+    left: 78px;
+    right: 122px;
+    height: 44px;
+    color: rgba(245, 247, 250, 0.92);
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+/* Footer */
+footer {
+    position: absolute;
+    left: 78px;
+    right: 220px;
+    bottom: 28px;
+    color: var(--muted);
+    font-size: 26px;
+    line-height: 1.15;
+    padding-left: 60px;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-image: var(--icon-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: translateY(-50%);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+footer a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+/* ページ番号 */
+section[data-marpit-pagination]::after {
+    content: attr(data-marpit-pagination);
+    position: absolute;
+    right: 38px;
+    bottom: 30px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgba(245, 247, 250, 0.78);
+    background: none;
+    box-shadow: none;
+}
+
+/* 本文の横幅を少し制限 */
+section>h1,
+section>h2,
+section>h3,
+section>h4,
+section>h5,
+section>p,
+section>ul,
+section>ol,
+section>blockquote,
+section>pre,
+section>table,
+section>figure,
+section>div,
+section>math,
+section>mjx-container {
+    max-width: var(--content-max-width);
+}
+
+code {
+    font-family: "JetBrains Mono", "SFMono-Regular", "Consolas", monospace;
+    font-size: 0.85em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0 0 0.5em;
+    color: var(--fg);
+    line-height: 1.16;
+    font-weight: 800;
+}
+
+h1 {
+    font-size: 1.85em;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 1.18em;
+    letter-spacing: -0.01em;
+    color: rgba(245, 247, 250, 0.92);
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+h4 {
+    font-size: 0.9em;
+    color: #dbe1ea;
+}
+
+h5 {
+    font-size: 0.72em;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+section.chapter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px;
+    text-align: center;
+    background: var(--bg);
+}
+
+section.chapter header,
+section.chapter footer {
+    display: none;
+}
+
+section.chapter[data-marpit-pagination]::after {
+    display: none;
+}
+
+section.chapter h1 {
+    margin: 0;
+    font-size: 3.2em;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+}
+
+p,
+ul,
+ol {
+    margin-top: 0.34em;
+    margin-bottom: 0.58em;
+}
+
+strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+em {
+    color: #d7dde7;
+}
+
+ul,
+ol {
+    padding-left: 1.2em;
+}
+
+li {
+    margin: 0.25em 0;
+}
+
+blockquote {
+    margin: 0.8em 0;
+    padding: 0.55em 0.9em;
+    color: #eef2f7;
+    background: var(--quote-bg);
+    border-left: 4px solid rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+}
+
+pre {
+    margin: 0.8em 0 0;
+    padding: 18px 20px;
+    background: var(--code-bg);
+    color: #f3f5f8;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: auto;
+}
+
+pre code {
+    display: block;
+    font-size: 0.76em;
+    line-height: 1.45;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+mjx-container {
+    color: #ffffff !important;
+}
+
+img {
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+section.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 120px;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.07), transparent 20%),
+        linear-gradient(145deg, #171a1f 0%, #0c0d11 56%, #07080a 100%);
+}
+
+section.title header {
+    display: none;
+}
+
+section.title h1 {
+    font-size: 2.65em;
+    line-height: 1.08;
+    margin-bottom: 0.4em;
+    max-width: 1000px;
+}
+
+section.title h2 {
+    font-size: 1.28em;
+    max-width: 760px;
+    margin-bottom: 0.8em;
+}
+
+section.title p {
+    color: var(--muted);
+    font-size: 0.92em;
+}
+
+section.key-message {
+    background:
+        radial-gradient(circle at 86% 16%, rgba(255, 255, 255, 0.04), transparent 18%),
+        linear-gradient(145deg, #15181c 0%, #0c0d11 60%, #07080a 100%);
+}
+
+section.key-message h1 {
+    font-size: 0.98em;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 1.2em;
+}
+
+section.key-message p:first-of-type {
+    color: var(--accent);
+    font-size: 1.24em;
+    font-weight: 700;
+    margin-bottom: 0.18em;
+}
+
+section.key-message p:nth-of-type(2) {
+    font-size: 1.6em;
+    line-height: 1.22;
+    max-width: 980px;
+    margin-bottom: 0.9em;
+}
+
+section.key-message p:last-of-type {
+    color: rgba(245, 247, 250, 0.84);
+    max-width: 840px;
+}
+
+section.visual-right-narrow>*:not(style):not(img):not(header):not(footer) {
+    max-width: 53%;
+}
+
+section.visual-right-wide>*:not(style):not(img):not(header):not(footer) {
+    max-width: 48%;
+}
+
+section.visual-right-narrow h1,
+section.visual-right-wide h1 {
+    font-size: 1.66em;
+    line-height: 1.06;
+    max-width: 100%;
+}
+
+section.visual-right-narrow p,
+section.visual-right-wide p {
+    font-size: 0.9em;
+    line-height: 1.32;
+    margin-bottom: 0.42em;
+}
+
+section.recap ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 1em 0 1.1em;
+}
+
+section.recap li {
+    margin: 0 0 0.42em;
+    padding-left: 0.8em;
+    border-left: 4px solid var(--accent);
+    font-size: 1.08em;
+}
+
+section.closing header {
+    display: none;
+}
+
+section.closing h1 {
+    font-size: 2.15em;
+    margin-bottom: 0.62em;
+}
+
+section.closing ul {
+    margin-top: 0.9em;
+    column-count: 2;
+    column-gap: 56px;
+}
+
+section.closing li {
+    break-inside: avoid;
+    margin-bottom: 0.48em;
+}
+
+section.closing-qr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 78px;
+}
+
+section.closing-qr header,
+section.closing-qr footer {
+    display: none;
+}
+
+section.closing-qr[data-marpit-pagination]::after {
+    display: none;
+}
+
+section.closing-qr h1 {
+    position: absolute;
+    top: 50%;
+    left: 78px;
+    transform: translateY(-50%);
+    margin: 0;
+    font-size: 3em;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    max-width: 440px;
+}
+
+section.closing-qr h2 {
+    position: absolute;
+    top: 110px;
+    right: 78px;
+    margin: 0;
+    width: 480px;
+    font-size: 1.08em;
+    line-height: 1.18;
+    text-align: center;
+    color: rgba(245, 247, 250, 0.78);
+}
+
+section.closing-qr .closing-qr-card {
+    position: absolute;
+    top: 200px;
+    right: 188px;
+    margin: 0;
+}
+
+section.closing-qr .closing-qr-card img {
+    display: block;
+    width: 200px;
+    padding: 14px;
+    border-radius: 20px;
+    background: #f7f7f5;
+    box-shadow:
+        0 18px 36px rgba(0, 0, 0, 0.36),
+        0 0 0 1px rgba(255, 255, 255, 0.14);
+}
+
+section.closing-qr .closing-qr-copy {
+    position: absolute;
+    bottom: 100px;
+    right: 78px;
+    width: 480px;
+    text-align: center;
+}
+
+section.closing-qr .closing-qr-copy p {
+    margin: 0;
+}
+
+section.closing-qr .closing-qr-copy p:first-child {
+    font-size: 0.86em;
+    color: rgba(245, 247, 250, 0.68);
+    margin-bottom: 6px;
+}
+
+section.closing-qr .closing-qr-copy p:last-child {
+    font-size: 0.82em;
+    line-height: 1.22;
+}
+
+section.closing-qr .closing-qr-copy a {
+    color: rgba(238, 242, 247, 0.88);
+}
