@@ -3,15 +3,33 @@ set -euo pipefail
 
 ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
 COMMAND=${1:-}
-TALK_DIR=${2:-}
+TARGET_INPUT=${2:-}
 
-if [[ -z "$COMMAND" || -z "$TALK_DIR" ]]; then
-  echo "usage: $0 <preview|render|watch|clean> <talk-dir>" >&2
+if [[ -z "$COMMAND" || -z "$TARGET_INPUT" ]]; then
+  echo "usage: $0 <preview|render|watch|clean> <talk-dir|slides.md>" >&2
   exit 1
 fi
 
-TALK_PATH="$ROOT_DIR/$TALK_DIR"
-SLIDES_PATH="$TALK_PATH/slides.md"
+resolve_repo_path() {
+  local input=$1
+
+  if [[ "$input" = /* ]]; then
+    printf '%s\n' "$input"
+  else
+    printf '%s\n' "$ROOT_DIR/$input"
+  fi
+}
+
+TARGET_PATH=$(resolve_repo_path "$TARGET_INPUT")
+
+if [[ "$TARGET_PATH" == */slides.md ]]; then
+  SLIDES_PATH="$TARGET_PATH"
+  TALK_PATH=$(dirname "$SLIDES_PATH")
+else
+  TALK_PATH="$TARGET_PATH"
+  SLIDES_PATH="$TALK_PATH/slides.md"
+fi
+
 THEME_PATH="$ROOT_DIR/shared/theme.css"
 DIST_PATH="$TALK_PATH/dist"
 IMAGES_PATH="$DIST_PATH/images"
@@ -22,7 +40,13 @@ if [[ ! -f "$SLIDES_PATH" ]]; then
 fi
 
 marp() {
-  npx --yes @marp-team/marp-cli@latest "$@"
+  if command -v bunx >/dev/null 2>&1; then
+    bunx @marp-team/marp-cli@latest "$@"
+    return
+  fi
+
+  echo "bunx not found: install Bun to run Marp commands" >&2
+  exit 1
 }
 
 common_args() {
@@ -48,6 +72,7 @@ render_images() {
   rm -f "$TALK_PATH"/slides.*.png
   mapfile -t args < <(common_args)
   marp --images png --image-scale 2 "${args[@]}" "$SLIDES_PATH" 2>&1
+  mkdir -p "$IMAGES_PATH"
   shopt -s nullglob
   for generated in "$TALK_PATH"/slides.*.png; do
     mv "$generated" "$IMAGES_PATH/"
