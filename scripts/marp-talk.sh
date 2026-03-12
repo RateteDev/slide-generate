@@ -49,20 +49,32 @@ marp() {
   exit 1
 }
 
+ensure_build_fonts() {
+  "$ROOT_DIR/scripts/build-fonts.sh" check
+}
+
 common_args() {
   printf '%s\n' --allow-local-files
+}
+
+theme_args() {
+  if [[ -f "$THEME_PATH" ]]; then
+    printf '%s\n' --theme "$THEME_PATH"
+  fi
 }
 
 render_html() {
   mkdir -p "$DIST_PATH"
   mapfile -t args < <(common_args)
-  marp --html "${args[@]}" "$SLIDES_PATH" -o "$DIST_PATH/slides.html" 2>&1
+  mapfile -t theme < <(theme_args)
+  marp --html "${args[@]}" "${theme[@]}" "$SLIDES_PATH" -o "$DIST_PATH/slides.html" 2>&1
 }
 
 render_pdf() {
   mkdir -p "$DIST_PATH"
   mapfile -t args < <(common_args)
-  marp --pdf "${args[@]}" "$SLIDES_PATH" -o "$DIST_PATH/slides.pdf" 2>&1
+  mapfile -t theme < <(theme_args)
+  marp --pdf "${args[@]}" "${theme[@]}" "$SLIDES_PATH" -o "$DIST_PATH/slides.pdf" 2>&1
 }
 
 render_images() {
@@ -71,7 +83,8 @@ render_images() {
   rm -f "$IMAGES_PATH"/*.png
   rm -f "$TALK_PATH"/slides.*.png
   mapfile -t args < <(common_args)
-  marp --images png --image-scale 2 "${args[@]}" "$SLIDES_PATH" 2>&1
+  mapfile -t theme < <(theme_args)
+  marp --images png --image-scale 2 "${args[@]}" "${theme[@]}" "$SLIDES_PATH" 2>&1
   mkdir -p "$IMAGES_PATH"
   shopt -s nullglob
   for generated in "$TALK_PATH"/slides.*.png; do
@@ -143,13 +156,16 @@ clean_dist() {
 
 case "$COMMAND" in
   preview)
+    ensure_build_fonts
     mapfile -t args < <(common_args)
     marp --server --watch "${args[@]}" "$TALK_PATH"
     ;;
   render)
+    ensure_build_fonts
     render_all
     ;;
   watch)
+    ensure_build_fonts
     watch_loop
     ;;
   clean)

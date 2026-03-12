@@ -14,7 +14,7 @@ endif
 
 SLIDES = $(TALK_DIR)/slides.md
 
-.PHONY: help dev build watch ensure-talk
+.PHONY: help dev build watch ensure-talk fonts
 
 ensure-talk:
 	@test -n "$(TALK_DIR)" || (echo "発表ディレクトリを指定してください。例: make build talks/2026-03-12-ai-dev-setup" >&2; exit 1)
@@ -55,6 +55,11 @@ help:
 # Example: make dev talks/2026-03-12-ai-dev-setup
 dev: ensure-talk
 	@$(MARP_WRAPPER) preview "$(SLIDES)"
+
+# Example: make fonts
+# Install fonts used by the Marp theme into the user environment
+fonts:
+	@./scripts/build-fonts.sh install
 
 # Render HTML, PDF, and PNG slide images
 # Example: make build talks/2026-03-12-ai-dev-setup
