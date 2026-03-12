@@ -1,8 +1,11 @@
 # Generated slide outputs
-talks/*/dist/
+talks/*/dist/**
 
 # Bun dependencies
 node_modules/
 
 # Temporary files
 .tmp/
+
+# Playwright CLI
+.playwright-cli
