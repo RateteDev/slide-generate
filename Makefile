@@ -4,7 +4,7 @@ MARP_WRAPPER := ./scripts/marp-talk.sh
 PRIMARY_TARGET := $(firstword $(MAKECMDGOALS))
 TALK_DIR := $(word 2,$(MAKECMDGOALS))
 
-ifneq ($(filter dev build watch,$(PRIMARY_TARGET)),)
+ifneq ($(filter dev build build-html build-pdf build-image build-all watch,$(PRIMARY_TARGET)),)
 ifneq ($(TALK_DIR),)
 .PHONY: $(TALK_DIR)
 $(TALK_DIR):
@@ -13,11 +13,15 @@ endif
 endif
 
 SLIDES = $(TALK_DIR)/slides.md
+DIST_DIR = $(TALK_DIR)/dist
+HTML_OUTPUT = $(DIST_DIR)/slides.html
+PDF_OUTPUT = $(DIST_DIR)/slides.pdf
+IMAGE_DIR = $(DIST_DIR)/images
 
-.PHONY: help dev build watch ensure-talk fonts
+.PHONY: help dev build build-html build-pdf build-image build-all watch ensure-talk fonts prepare-html prepare-pdf prepare-image prepare-all
 
 ensure-talk:
-	@test -n "$(TALK_DIR)" || (echo "発表ディレクトリを指定してください。例: make build talks/2026-03-12-ai-dev-setup" >&2; exit 1)
+	@test -n "$(TALK_DIR)" || (echo "発表ディレクトリを指定してください。例: make build-all talks/2026-03-12-ai-dev-setup" >&2; exit 1)
 
 # Show available targets
 help:
@@ -62,9 +66,43 @@ fonts:
 	@./scripts/build-fonts.sh install
 
 # Render HTML, PDF, and PNG slide images
-# Example: make build talks/2026-03-12-ai-dev-setup
-build: ensure-talk
-	@$(MARP_WRAPPER) render "$(SLIDES)"
+# Example: make build-all talks/2026-03-12-ai-dev-setup
+build: build-all
+
+# Render HTML only
+# Example: make build-html talks/2026-03-12-ai-dev-setup
+build-html: ensure-talk prepare-html
+	@$(MARP_WRAPPER) render-html "$(SLIDES)"
+
+# Render PDF only
+# Example: make build-pdf talks/2026-03-12-ai-dev-setup
+build-pdf: ensure-talk prepare-pdf
+	@$(MARP_WRAPPER) render-pdf "$(SLIDES)"
+
+# Render slide images only
+# Example: make build-image talks/2026-03-12-ai-dev-setup
+build-image: ensure-talk prepare-image
+	@$(MARP_WRAPPER) render-image "$(SLIDES)"
+
+# Render HTML, PDF, and PNG slide images
+# Example: make build-all talks/2026-03-12-ai-dev-setup
+build-all: ensure-talk prepare-all
+	@$(MARP_WRAPPER) render-all "$(SLIDES)"
+
+prepare-html:
+	@echo "[make] Removing existing HTML output: $(HTML_OUTPUT)"
+	@rm -f "$(HTML_OUTPUT)"
+
+prepare-pdf:
+	@echo "[make] Removing existing PDF output: $(PDF_OUTPUT)"
+	@rm -f "$(PDF_OUTPUT)"
+
+prepare-image:
+	@echo "[make] Removing existing image output: $(IMAGE_DIR)"
+	@rm -f "$(IMAGE_DIR)"/*.png
+	@rm -f "$(TALK_DIR)"/slides.*.png
+
+prepare-all: prepare-html prepare-pdf prepare-image
 
 # Watch slide sources and rerender on changes
 # Example: make watch talks/2026-03-12-ai-dev-setup

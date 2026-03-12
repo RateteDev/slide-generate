@@ -6,7 +6,7 @@ COMMAND=${1:-}
 TARGET_INPUT=${2:-}
 
 if [[ -z "$COMMAND" || -z "$TARGET_INPUT" ]]; then
-  echo "usage: $0 <preview|render|watch|clean> <talk-dir|slides.md>" >&2
+  echo "usage: $0 <preview|render|render-html|render-pdf|render-image|render-all|watch|clean> <talk-dir|slides.md>" >&2
   exit 1
 fi
 
@@ -80,8 +80,6 @@ render_pdf() {
 render_images() {
   local generated
   mkdir -p "$IMAGES_PATH"
-  rm -f "$IMAGES_PATH"/*.png
-  rm -f "$TALK_PATH"/slides.*.png
   mapfile -t args < <(common_args)
   mapfile -t theme < <(theme_args)
   marp --images png --image-scale 2 "${args[@]}" "${theme[@]}" "$SLIDES_PATH" 2>&1
@@ -159,6 +157,22 @@ case "$COMMAND" in
     ensure_build_fonts
     mapfile -t args < <(common_args)
     marp --server --watch "${args[@]}" "$TALK_PATH"
+    ;;
+  render-html)
+    ensure_build_fonts
+    render_html
+    ;;
+  render-pdf)
+    ensure_build_fonts
+    render_pdf
+    ;;
+  render-image)
+    ensure_build_fonts
+    render_images
+    ;;
+  render-all)
+    ensure_build_fonts
+    render_all
     ;;
   render)
     ensure_build_fonts
