@@ -1,60 +1,56 @@
-DEFAULT_TALK := talks/2026-03-12-ai-dev-setup
-SLIDES_ARG := $(firstword $(filter %/slides.md,$(MAKECMDGOALS)))
-SLIDES ?= $(if $(SLIDES_ARG),$(SLIDES_ARG),$(if $(TALK),$(TALK)/slides.md,$(DEFAULT_TALK)/slides.md))
-TALK ?= $(patsubst %/slides.md,%,$(SLIDES))
 MARP_WRAPPER := ./scripts/marp-talk.sh
+.DEFAULT_GOAL := help
 
-.PHONY: preview render watch clean talk-path slides-path FORCE
+SLIDES = $(TALK)/slides.md
 
-FORCE:
+.PHONY: help preview render watch ensure-talk
 
-%/slides.md: FORCE
-	@if [ "$(words $(MAKECMDGOALS))" -eq 1 ]; then \
-		$(MAKE) --no-print-directory render SLIDES="$@" TALK="$(patsubst %/slides.md,%,$@)"; \
-	else \
-		:; \
-	fi
+ensure-talk:
+	@test -n "$(TALK)" || (echo "TALK を指定してください。例: make render TALK=talks/2026-03-12-ai-dev-setup" >&2; exit 1)
 
-# 開発サーバーを起動する
-#     Marp のサーバーを起動し、編集中のスライドをリアルタイムで確認できます
-#     ブラウザでは /slides.md を開いて確認します
-#     例: make preview talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make preview TALK=talks/2026-03-12-ai-dev-setup
-preview:
+# Show available targets
+help:
+	@printf "Usage: make <target>\n\n"
+	@awk '\
+		BEGIN { desc = ""; example_count = 0; } \
+		/^# [^#]/ { \
+			line = substr($$0, 3); \
+			if (line ~ /^Example: /) { \
+				examples[++example_count] = substr(line, 10); \
+			} else { \
+				desc = line; \
+			} \
+			next; \
+		} \
+		/^[a-zA-Z0-9_.\/%-]+:/ { \
+			target = $$1; \
+			sub(/:.*/, "", target); \
+			if (target != ".PHONY" && target != "FORCE" && desc != "") { \
+				printf "%-20s %s\n", target, desc; \
+				for (i = 1; i <= example_count; i++) { \
+					printf "%-20s %s\n", "", "Example: " examples[i]; \
+				} \
+				printf "\n"; \
+			} \
+			desc = ""; \
+			example_count = 0; \
+			delete examples; \
+			next; \
+		} \
+		{ desc = ""; example_count = 0; delete examples; } \
+	' $(MAKEFILE_LIST)
+
+# Start the Marp preview server for a talk
+# Example: make preview TALK=talks/2026-03-12-ai-dev-setup
+preview: ensure-talk
 	@$(MARP_WRAPPER) preview "$(SLIDES)"
 
-# HTML / PDF / スライド画像 (PNG) を一括生成する
-#     成功時は生成枚数と出力先を1行で表示し、エラー時のみ詳細を出します
-#     例: make render talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make render TALK=talks/2026-03-12-ai-dev-setup
-render:
+# Render HTML, PDF, and PNG slide images
+# Example: make render TALK=talks/2026-03-12-ai-dev-setup
+render: ensure-talk
 	@$(MARP_WRAPPER) render "$(SLIDES)"
 
-# ファイル変更を検知して自動で再レンダリングする
-#     slides.md, talk-theme.css, assets/, context/ の変更を監視します
-#     例: make watch talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make watch TALK=talks/2026-03-12-ai-dev-setup
-watch:
+# Watch slide sources and rerender on changes
+# Example: make watch TALK=talks/2026-03-12-ai-dev-setup
+watch: ensure-talk
 	@$(MARP_WRAPPER) watch "$(SLIDES)"
-
-# dist ディレクトリを削除する
-#     HTML / PDF / PNG など生成済みファイルをすべて消去します
-#     例: make clean talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make clean TALK=talks/2026-03-12-ai-dev-setup
-clean:
-	@$(MARP_WRAPPER) clean "$(SLIDES)"
-
-# 現在の TALK 変数の値を表示する
-#     スクリプトやCIから対象トークのディレクトリパスを参照するときに使います
-#     例: make talk-path talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make talk-path TALK=talks/2026-03-12-ai-dev-setup
-talk-path:
-	@echo $(TALK)
-
-# 現在の SLIDES 変数の値を表示する
-#     スクリプトやCIから対象スライドのパスを参照するときに使います
-#     例: make slides-path talks/2026-03-12-ai-dev-setup/slides.md
-#     例: make slides-path TALK=talks/2026-03-12-ai-dev-setup
-slides-path:
-	@echo $(SLIDES)
