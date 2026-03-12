@@ -1,5 +1,8 @@
 # Generated slide outputs
 talks/*/dist/
 
+# Bun dependencies
+node_modules/
+
 # Temporary files
 .tmp/

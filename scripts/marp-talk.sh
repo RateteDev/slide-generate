@@ -41,11 +41,11 @@ fi
 
 marp() {
   if command -v bunx >/dev/null 2>&1; then
-    bunx @marp-team/marp-cli@latest "$@"
+    bunx marp "$@"
     return
   fi
 
-  echo "bunx not found: install Bun to run Marp commands" >&2
+  echo "bunx not found: install Bun and run 'bun install' to use Marp commands" >&2
   exit 1
 }
 
