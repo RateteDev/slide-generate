@@ -10,7 +10,7 @@
 | `talks/<YYYY-MM-DD-name>/` | 発表単位（slides.md / context/ / assets/ / dist/） |
 | `docs/` | 共通知見メモ・執筆ガイド |
 | `scripts/marp-talk.sh` | Marp CLI ラッパー |
-| `Makefile` | 日常操作の入口（render / preview / watch / clean） |
+| `Makefile` | 日常操作の入口（build / dev / watch / clean） |
 
 ## スライド作成フロー
 
@@ -19,7 +19,7 @@ flowchart LR
     A[01-brief.md<br>発表の前提を決める] --> B[02-raw-notes.md<br>素材を集める]
     B --> C[03-outline.md<br>構成を組む]
     C --> D[slides.md<br>スライド執筆]
-    D --> E[make render<br>レイアウト確認]
+    D --> E[make build<br>レイアウト確認]
 ```
 
 ## ルール
@@ -27,4 +27,4 @@ flowchart LR
 - 発表ディレクトリ名は `YYYY-MM-DD-{name}` 形式
 - 生成物（dist/）は直接編集せずソースを修正して再生成
 - 画像・メモ・テーマは発表ディレクトリに寄せ、共通化は明確な場合のみ docs/ へ
-- レイアウト確認は `make render` 後に `dist/images/*.png` を見る
+- レイアウト確認は `make build` 後に `dist/images/*.png` を見る

@@ -1,12 +1,23 @@
 MARP_WRAPPER := ./scripts/marp-talk.sh
 .DEFAULT_GOAL := help
 
-SLIDES = $(TALK)/slides.md
+PRIMARY_TARGET := $(firstword $(MAKECMDGOALS))
+TALK_DIR := $(word 2,$(MAKECMDGOALS))
 
-.PHONY: help preview render watch ensure-talk
+ifneq ($(filter dev build watch,$(PRIMARY_TARGET)),)
+ifneq ($(TALK_DIR),)
+.PHONY: $(TALK_DIR)
+$(TALK_DIR):
+	@:
+endif
+endif
+
+SLIDES = $(TALK_DIR)/slides.md
+
+.PHONY: help dev build watch ensure-talk
 
 ensure-talk:
-	@test -n "$(TALK)" || (echo "TALK を指定してください。例: make render TALK=talks/2026-03-12-ai-dev-setup" >&2; exit 1)
+	@test -n "$(TALK_DIR)" || (echo "発表ディレクトリを指定してください。例: make build talks/2026-03-12-ai-dev-setup" >&2; exit 1)
 
 # Show available targets
 help:
@@ -41,16 +52,16 @@ help:
 	' $(MAKEFILE_LIST)
 
 # Start the Marp preview server for a talk
-# Example: make preview TALK=talks/2026-03-12-ai-dev-setup
-preview: ensure-talk
+# Example: make dev talks/2026-03-12-ai-dev-setup
+dev: ensure-talk
 	@$(MARP_WRAPPER) preview "$(SLIDES)"
 
 # Render HTML, PDF, and PNG slide images
-# Example: make render TALK=talks/2026-03-12-ai-dev-setup
-render: ensure-talk
+# Example: make build talks/2026-03-12-ai-dev-setup
+build: ensure-talk
 	@$(MARP_WRAPPER) render "$(SLIDES)"
 
 # Watch slide sources and rerender on changes
-# Example: make watch TALK=talks/2026-03-12-ai-dev-setup
+# Example: make watch talks/2026-03-12-ai-dev-setup
 watch: ensure-talk
 	@$(MARP_WRAPPER) watch "$(SLIDES)"
