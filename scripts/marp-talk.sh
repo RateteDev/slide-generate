@@ -30,7 +30,7 @@ else
   SLIDES_PATH="$TALK_PATH/slides.md"
 fi
 
-THEME_PATH="$ROOT_DIR/shared/theme.css"
+THEME_PATH="$TALK_PATH/talk-theme.css"
 DIST_PATH="$TALK_PATH/dist"
 IMAGES_PATH="$DIST_PATH/images"
 
@@ -50,7 +50,7 @@ marp() {
 }
 
 common_args() {
-  printf '%s\n' --allow-local-files --theme "$THEME_PATH"
+  printf '%s\n' --allow-local-files
 }
 
 render_html() {
@@ -101,9 +101,9 @@ render_all() {
 watch_fingerprint() {
   local -a paths=()
   [[ -f "$SLIDES_PATH" ]] && paths+=("$SLIDES_PATH")
+  [[ -f "$THEME_PATH" ]] && paths+=("$THEME_PATH")
   [[ -d "$TALK_PATH/assets" ]] && paths+=("$TALK_PATH/assets")
   [[ -d "$TALK_PATH/context" ]] && paths+=("$TALK_PATH/context")
-  [[ -f "$THEME_PATH" ]] && paths+=("$THEME_PATH")
 
   find "${paths[@]}" -type f -print0 \
     | sort -z \
@@ -144,7 +144,7 @@ clean_dist() {
 case "$COMMAND" in
   preview)
     mapfile -t args < <(common_args)
-    marp --preview "${args[@]}" "$SLIDES_PATH"
+    marp --server --watch "${args[@]}" "$TALK_PATH"
     ;;
   render)
     render_all

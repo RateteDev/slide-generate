@@ -15,8 +15,9 @@ FORCE:
 		:; \
 	fi
 
-# ブラウザでライブプレビューを開く
-#     Marp のプレビューサーバーを起動し、編集中のスライドをリアルタイムで確認できます
+# 開発サーバーを起動する
+#     Marp のサーバーを起動し、編集中のスライドをリアルタイムで確認できます
+#     ブラウザでは /slides.md を開いて確認します
 #     例: make preview talks/2026-03-12-ai-dev-setup/slides.md
 #     例: make preview TALK=talks/2026-03-12-ai-dev-setup
 preview:
@@ -31,7 +32,7 @@ render:
 	@$(MARP_WRAPPER) render "$(SLIDES)"
 
 # ファイル変更を検知して自動で再レンダリングする
-#     slides.md, assets/, context/, theme.css の変更を監視します
+#     slides.md, talk-theme.css, assets/, context/ の変更を監視します
 #     例: make watch talks/2026-03-12-ai-dev-setup/slides.md
 #     例: make watch TALK=talks/2026-03-12-ai-dev-setup
 watch:

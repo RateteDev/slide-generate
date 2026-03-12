@@ -1,3 +1,5 @@
+/* @theme talk-theme */
+
 @import 'default';
 
 :root {
@@ -93,21 +95,21 @@ section[data-marpit-pagination]::after {
 }
 
 /* 本文の横幅を少し制限 */
-section>h1,
-section>h2,
-section>h3,
-section>h4,
-section>h5,
-section>p,
-section>ul,
-section>ol,
-section>blockquote,
-section>pre,
-section>table,
-section>figure,
-section>div,
-section>math,
-section>mjx-container {
+section > h1,
+section > h2,
+section > h3,
+section > h4,
+section > h5,
+section > p,
+section > ul,
+section > ol,
+section > blockquote,
+section > pre,
+section > table,
+section > figure,
+section > div,
+section > math,
+section > mjx-container {
     max-width: var(--content-max-width);
 }
 
@@ -258,201 +260,23 @@ section.title {
     padding-top: 120px;
     background:
         radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.07), transparent 20%),
-        linear-gradient(145deg, #171a1f 0%, #0c0d11 56%, #07080a 100%);
-}
-
-section.title header {
-    display: none;
+        linear-gradient(155deg, #171a20 0%, #0a0b0e 62%, #06070a 100%);
 }
 
 section.title h1 {
-    font-size: 2.65em;
-    line-height: 1.08;
-    margin-bottom: 0.4em;
-    max-width: 1000px;
+    margin-bottom: 0.28em;
+    font-size: 2.15em;
 }
 
 section.title h2 {
-    font-size: 1.28em;
-    max-width: 760px;
-    margin-bottom: 0.8em;
+    font-size: 1.02em;
+    color: #d9dfe8;
 }
 
-section.title p {
-    color: var(--muted);
-    font-size: 0.92em;
-}
-
-section.key-message {
-    background:
-        radial-gradient(circle at 86% 16%, rgba(255, 255, 255, 0.04), transparent 18%),
-        linear-gradient(145deg, #15181c 0%, #0c0d11 60%, #07080a 100%);
-}
-
-section.key-message h1 {
-    font-size: 0.98em;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-    margin-bottom: 1.2em;
-}
-
-section.key-message p:first-of-type {
-    color: var(--accent);
-    font-size: 1.24em;
-    font-weight: 700;
-    margin-bottom: 0.18em;
-}
-
-section.key-message p:nth-of-type(2) {
-    font-size: 1.6em;
-    line-height: 1.22;
-    max-width: 980px;
-    margin-bottom: 0.9em;
-}
-
-section.key-message p:last-of-type {
-    color: rgba(245, 247, 250, 0.84);
-    max-width: 840px;
-}
-
-section.visual-right-narrow>*:not(style):not(img):not(header):not(footer) {
-    max-width: 53%;
-}
-
-section.visual-right-wide>*:not(style):not(img):not(header):not(footer) {
-    max-width: 48%;
-}
-
-section.visual-right-narrow h1,
-section.visual-right-wide h1 {
-    font-size: 1.66em;
-    line-height: 1.06;
-    max-width: 100%;
-}
-
-section.visual-right-narrow p,
-section.visual-right-wide p {
-    font-size: 0.9em;
-    line-height: 1.32;
-    margin-bottom: 0.42em;
-}
-
-section.recap ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 1em 0 1.1em;
-}
-
-section.recap li {
-    margin: 0 0 0.42em;
-    padding-left: 0.8em;
-    border-left: 4px solid var(--accent);
-    font-size: 1.08em;
-}
-
-section.closing header {
-    display: none;
-}
-
-section.closing h1 {
-    font-size: 2.15em;
-    margin-bottom: 0.62em;
-}
-
-section.closing ul {
-    margin-top: 0.9em;
-    column-count: 2;
-    column-gap: 56px;
-}
-
-section.closing li {
-    break-inside: avoid;
-    margin-bottom: 0.48em;
-}
-
-section.closing-qr {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 78px;
-}
-
-section.closing-qr header,
 section.closing-qr footer {
     display: none;
 }
 
 section.closing-qr[data-marpit-pagination]::after {
     display: none;
-}
-
-section.closing-qr h1 {
-    position: absolute;
-    top: 50%;
-    left: 78px;
-    transform: translateY(-50%);
-    margin: 0;
-    font-size: 3em;
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: #ffffff;
-    max-width: 440px;
-}
-
-section.closing-qr h2 {
-    position: absolute;
-    top: 110px;
-    right: 78px;
-    margin: 0;
-    width: 480px;
-    font-size: 1.08em;
-    line-height: 1.18;
-    text-align: center;
-    color: rgba(245, 247, 250, 0.78);
-}
-
-section.closing-qr .closing-qr-card {
-    position: absolute;
-    top: 200px;
-    right: 188px;
-    margin: 0;
-}
-
-section.closing-qr .closing-qr-card img {
-    display: block;
-    width: 200px;
-    padding: 14px;
-    border-radius: 20px;
-    background: #f7f7f5;
-    box-shadow:
-        0 18px 36px rgba(0, 0, 0, 0.36),
-        0 0 0 1px rgba(255, 255, 255, 0.14);
-}
-
-section.closing-qr .closing-qr-copy {
-    position: absolute;
-    bottom: 100px;
-    right: 78px;
-    width: 480px;
-    text-align: center;
-}
-
-section.closing-qr .closing-qr-copy p {
-    margin: 0;
-}
-
-section.closing-qr .closing-qr-copy p:first-child {
-    font-size: 0.86em;
-    color: rgba(245, 247, 250, 0.68);
-    margin-bottom: 6px;
-}
-
-section.closing-qr .closing-qr-copy p:last-child {
-    font-size: 0.82em;
-    line-height: 1.22;
-}
-
-section.closing-qr .closing-qr-copy a {
-    color: rgba(238, 242, 247, 0.88);
 }

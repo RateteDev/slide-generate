@@ -1,5 +1,6 @@
 ---
 marp: true
+theme: talk-theme
 paginate: true
 header: AIをいい感じに使う設定と環境
 footer: https://ratete.dev/works/ai-dev-setup
