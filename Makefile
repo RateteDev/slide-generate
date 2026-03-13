@@ -18,7 +18,7 @@ HTML_OUTPUT = $(DIST_DIR)/slides.html
 PDF_OUTPUT = $(DIST_DIR)/slides.pdf
 IMAGE_DIR = $(DIST_DIR)/images
 
-.PHONY: help dev build build-html build-pdf build-image build-all watch ensure-talk fonts prepare-html prepare-pdf prepare-image prepare-all
+.PHONY: help dev build build-html build-pdf build-image build-all watch ensure-talk fonts prepare-html prepare-pdf prepare-image prepare-all gen-qr
 
 ensure-talk:
 	@test -n "$(TALK_DIR)" || (echo "発表ディレクトリを指定してください。例: make build-all talks/2026-03-12-ai-dev-setup" >&2; exit 1)
@@ -103,6 +103,12 @@ prepare-image:
 	@rm -f "$(TALK_DIR)"/slides.*.png
 
 prepare-all: prepare-html prepare-pdf prepare-image
+
+# 公開URLのQRコードを生成して assets/qr.png に保存する
+# Example: make gen-qr talks/2026-03-12-ai-dev-setup URL=https://example.com/slides
+gen-qr: ensure-talk
+	@test -n "$(URL)" || (echo "URLを指定してください。例: make gen-qr talks/xxx URL=https://example.com" >&2; exit 1)
+	@node scripts/gen-qr.js "$(URL)" "$(TALK_DIR)/assets/qr.png"
 
 # Watch slide sources and rerender on changes
 # Example: make watch talks/2026-03-12-ai-dev-setup
