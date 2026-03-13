@@ -17,17 +17,19 @@ tmux の `hearing` セッションを作成し、Claude をインタビュアー
 指定がない場合は `talks/` 配下で最新更新のディレクトリを自動選択する（確認不要）。
 
 ### 2. hearing セッションを起動
-以下のコマンドで `hearing` セッションを作成し、Claude を起動する。
+`scripts/tmux-hearing.sh` を使って起動する。
 
 ```bash
 TALKDIR="{talks/<発表ディレクトリ> の絶対パス}"
-SESSION="hearing"
-PROMPT="$(TALKDIR="$TALKDIR" envsubst '${TALKDIR}' < docs/prompt-slide-hearing.md)"
-
-tmux send-keys -t "$SESSION" "cd $(pwd) && claude --model haiku \"$PROMPT\"" Enter
+./scripts/tmux-hearing.sh "$TALKDIR"
 ```
+
+スクリプトが以下を自動で行う：
+- `hearing` セッションの存在確認（なければ新規作成）
+- pane 直下の node プロセス（Claude）が実行中でないことを確認
+- 条件を満たせば Claude を起動。実行中の場合はエラーで終了
 
 ### 3. ユーザーに案内
 
-コマンド実行後、以下を伝える。
-"tmuxでhearingセッションを起動しました。ヒアリングが完了したらお伝えください。"
+スクリプトが正常終了したら以下を伝える。
+"tmux で hearing セッションを起動しました。ヒアリングが完了したらお伝えください。"

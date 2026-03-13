@@ -13,15 +13,19 @@ model: haiku
 
 ### 1. ビルド
 
+発表ディレクトリ（`TALK_DIR`）を引数に渡してビルドする。
+
 ```bash
-make build-image
+make build-image <TALK_DIR>
+# 例: make build-image talks/2026-03-13-my-talk
 ```
 
+`TALK_DIR` はスキル/オーケストレーター側から渡される。指定がない場合はエラーを報告して終了する。
 エラーが出た場合はビルドログを報告して終了する。
 
 ### 2. PNG 確認
 
-`dist/images/*.png` を全枚読み込み、以下を確認する。
+`<TALK_DIR>/dist/images/*.png` を全枚読み込み、以下を確認する。
 
 | チェック項目 | 内容 |
 |------------|------|
