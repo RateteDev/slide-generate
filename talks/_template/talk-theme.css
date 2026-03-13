@@ -293,10 +293,17 @@ section.title h2 {
     color: #d9dfe8;
 }
 
+section.closing-qr header,
 section.closing-qr footer {
     display: none;
 }
 
 section.closing-qr[data-marpit-pagination]::after {
     display: none;
+}
+
+section.closing-qr img {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
 }
