@@ -10,167 +10,228 @@ footer: https://ratete.dev/works/ai-dev-setup
 
 # AIをいい感じに使う<br>設定や環境のアレコレ
 
-## 派手な活用より、毎日の面倒を減らした話
+### ～開発の摩擦を減らす5つの工夫～
 
-03/12 LT
-
----
-
-# 自己紹介
-
-らてです。
-
-個人開発とWebまわりを触っています。
-
-作ったものは`ratete.dev`で公開しています。
-
-今日は、AIを盛る話より、開発を続けやすくした運用の話をします。
+個人開発集会 | 2026/03/12(木)
 
 ---
 
-# このスライドについて
+## 自己紹介
 
-新機能の紹介ではありません。
+らてです。WebとLLMが好きでその辺をよく触っています。
 
-毎回ちょっと引っかかる面倒を、どう減らしたかの共有です。
+今回は、特定の技術やプロダクトにフォーカスした話ではなく、
 
-設定 / 環境 / 確認フロー / 役割分担。
-
-小さい改善を積み上げて、続けやすさを上げた話です。
+開発をしやすくするための工夫やツール設計の話をします。
 
 ---
 
-<!-- _class: chapter -->
+<!-- header: 1. 起動前ダッシュボードの設定 -->
+<!-- _class: chapter-title -->
 
-# 摩擦を減らすためにやったこと
+## 1. 起動前ダッシュボードの設定
 
----
-
-<!-- _class: key-message -->
-
-# 結論
-
-毎回ちょっと引っかかる面倒を減らす。
-
-それだけで、個人開発はかなり続けやすくなります。
-
-待ち時間 / 判断コスト / 確認の往復。
-今回はこの3つを減らした話です。
+毎回WEBダッシュボードを開く手間を0に
 
 ---
 
-# 実行環境を分けた
+### 使用料確認の為にブラウザを開くのが面倒
 
-普段使いはWindowsです。
+- いちいちWEBダッシュボードを開くのは時間がかかる
 
-開発作業はLinuxへ寄せました。
+<br>
 
-リモート構成も試しましたが、入力遅延が積み重なるほうがつらかったです。
+### 急にリミットが来て作業が止まる
 
-理想形より、毎日すぐ触れることを優先しました。
-
----
-
-<!-- _class: visual-right-narrow -->
-
-# ステータスを見える化した
-
-![bg right:43%](assets/statusline.png)
-
-使用中モデルとトークン使用率を、すぐ見える位置に出しています。
-
-続けるか、区切るか、別セッションにするか。
-
-判断の切れ目を早く作れるようになりました。
+- 使用率が見えないと作業中にリミットにかかって手が止まる
 
 ---
 
-# 見た目確認の往復を減らした
+<!-- _class: image-only -->
 
-`playwright-cli`で変更箇所のスクリーンショット取得を自動化しました。
-
-AIにも画像確認を手伝わせます。
-
-ただし、小さい崩れは最後に自分の目で見ます。
-
-完全自動化より、確認までの距離を短くしたのが効きました。
+![bg](assets/01-dashboard-before-web.png)
 
 ---
 
-# 情報取得の入口も短くした
+## 起動前ダッシュボードの設定
 
-気になったXの投稿を、そのままLLMへ渡せるようにしました。
+`agents-startup`スクリプトを作成し、`codex` / `claude`コマンド実行時に
 
-スクリーンショットやコピペを挟まないので、調べ始めるまでが短くなります。
+**Claude**はOAuth API、**Codex**はapp-server経由で
 
-新しい話題を追うときの負担を減らせました。
-
----
-
-<!-- _class: visual-right-wide -->
-
-# ツールは役割で使い分けた
-
-![bg right:48%](assets/cli.png)
-
-文章や整理はClaude Code。
-
-実装の詰めや原因分析はCodex。
-
-一つに寄せるより、役割を分けたほうが運用しやすかったです。
+使用率を取得し、プログレスバーで表示
 
 ---
 
-<!-- _class: recap -->
+<!-- _class: image-only -->
 
-# まとめ
-
-- 待ち時間を減らす
-- 判断コストを減らす
-- 確認の往復を減らす
-
-派手な一発より、細かい改善の積み重ねでした。
-
-でも、その積み重ねで個人開発はかなり続けやすくなりました。
+![bg](assets/01-dashboard-after-cli.png)
 
 ---
 
-# 参照ソース
+## 工夫点
 
-- [Anthropic Claude Code Overview](https://docs.anthropic.com/en/docs/claude-code/overview)
-- [Playwright Screenshots](https://playwright.dev/docs/screenshots)
-- [OpenAI Codex README](https://github.com/openai/codex)
-- [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction)
+- 起動時に動的に使用率を取得するためリアルタイムな値が確認可能
+- 設定値も表示することで編集を行いやすく
 
 ---
 
-# フォローアップ
+<!-- header: 2. ステータスラインの設定 -->
+<!-- _class: chapter-title -->
 
-- Claude CodeやCodexの機能は今後も変わります。
-- 料金や制限は時期で変わる可能性があります。
-- 最新の設定や資料は公開URLから追えるようにします。
+## 2. ステータスラインの設定
 
----
-
-# Q&A例
-
-- まず何から整えるのがおすすめですか。
-- ステータスラインには何を出すと効きますか。
-- Claude CodeとCodexは、どう切り分けると迷いにくいですか。
+画面の端でリアルタイム表示、常に残量を意識
 
 ---
 
-<!-- _class: closing-qr -->
+## Auto compactが発動して<br>文脈が突然消える
 
-# Thank you!
+コンテキスト残量が見えず、作業が急に中断されることがあった
 
-## AIをいい感じに使う<br>設定や環境のアレコレ
+---
 
-<div class="closing-qr-card">
-  <img src="assets/qr-ai-dev-setup.png" alt="公開資料QR" />
-</div>
+## ステータスラインの設定
 
-<div class="closing-qr-copy">
-  <p>資料はこちらです。</p>
-  <p><a href="https://ratete.dev/works/ai-dev-setup">https://ratete.dev/works/ai-dev-setup</a></p>
-</div>
+ステータスライン設定を用いてセッション中のコンテキスト使用率を
+
+画面下部にリアルタイム表示
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/02-statusline-after-color.png)
+
+---
+
+## 工夫点
+
+- 使用率に応じてブロックが埋まっていく演出
+- 使用率に応じて水色→緑→黄→赤に変色し、視覚的に残量を伝える
+
+---
+
+<!-- header: 3. 設定同期の自動化 -->
+<!-- _class: chapter-title -->
+
+## 3. 設定同期の自動化
+
+スキル・コマンド・設定を自動で揃える
+
+---
+
+## ClaudeとCodexで設定がズレる
+
+- 毎回どちらを使うか判断する認知負荷が発生
+- 手動同期の手間とストレス
+
+---
+
+## 設定同期の自動化
+
+- `rsync`と`cron`を用いて、`~/.claude`の設定を30分ごとに監視
+- 変更があった場合、`~/.codex`へ自動同期
+- gitで変更の記録も行い、GitHubリポジトリにpush
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/03-sync-notification-discord.png)
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/03-sync-git-diff.png)
+
+---
+
+<!-- header: 4. Discord通知の設定 -->
+<!-- _class: chapter-title -->
+
+## 4. Discord通知の設定
+
+AIの応答完了がEmbed通知で届く
+
+---
+
+## スマホで通知が受け取れず<br>PCに戻るまで進捗が分からない
+
+複数セッションを同時に回すと、他ウィンドウの完了にも気づけなかった
+
+---
+
+## Discord通知の設定
+
+ClaudeCode / Codexのhooksを用いて、
+
+応答完了時にDiscord WebhookへEmbed通知を自動送信
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/04-notification-after-discord-complete.png)
+
+
+---
+
+<!-- header: 5. PRフォーマットスキルの導入 -->
+<!-- _class: chapter-title -->
+
+## 5. PRフォーマットスキルの導入
+
+毎回のランダムなフォーマットを統一スキルで固定
+
+---
+
+## PR本文が毎回ランダムで読みづらい
+
+- Codex特有の表現やネストした箇条書きが認知コストを上げていた
+- PRごとにフォーマットが異なり、内容の把握に時間がかかる
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/05-pr-before-messy1.png)
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/05-pr-before-messy2.png)
+
+---
+
+## PRフォーマットスキルの導入
+
+`my-pr-format`スキルを用いて、PR作成時に
+
+4つの見出し + テーブル形式の変更履歴 + まとめ + 備考・懸念のフォーマットを適用させた
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/05-pr-after-formatted1.png)
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/05-pr-after-formatted2.png)
+
+---
+
+<!-- _class: image-only -->
+
+![bg](assets/05-pr-legend-detail.png)
+
+---
+
+## Q&A
+
+ご質問お待ちしています

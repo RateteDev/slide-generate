@@ -99,7 +99,6 @@ section > h1,
 section > h2,
 section > h3,
 section > h4,
-section > h5,
 section > p,
 section > ul,
 section > ol,
@@ -121,8 +120,7 @@ code {
 h1,
 h2,
 h3,
-h4,
-h5 {
+h4 {
     margin: 0 0 0.5em;
     color: var(--fg);
     line-height: 1.16;
@@ -135,54 +133,25 @@ h1 {
 }
 
 h2 {
-    font-size: 1.18em;
+    font-size: 1.85em;
+    letter-spacing: -0.02em;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+h3 {
+    font-size: 1.45em;
     letter-spacing: -0.01em;
     color: rgba(245, 247, 250, 0.92);
     font-weight: 600;
 }
 
-h3 {
-    font-size: 1.1em;
-}
-
 h4 {
-    font-size: 0.9em;
+    font-size: 1.18em;
     color: #dbe1ea;
+    font-weight: 600;
 }
 
-h5 {
-    font-size: 0.72em;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-}
-
-section.chapter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 72px;
-    text-align: center;
-    background: var(--bg);
-}
-
-section.chapter header,
-section.chapter footer {
-    display: none;
-}
-
-section.chapter[data-marpit-pagination]::after {
-    display: none;
-}
-
-section.chapter h1 {
-    margin: 0;
-    font-size: 3.2em;
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -0.03em;
-    color: #ffffff;
-}
 
 p,
 ul,
@@ -268,7 +237,7 @@ section.title h1 {
     font-size: 2.15em;
 }
 
-section.title h2 {
+section.title h3 {
     font-size: 1.02em;
     color: #d9dfe8;
 }
@@ -279,4 +248,55 @@ section.closing-qr footer {
 
 section.closing-qr[data-marpit-pagination]::after {
     display: none;
+}
+
+/* Image-only slides: header / footer / pagination を全て非表示 + 画像を画面内に収める */
+section.image-only {
+    padding: 0;
+    background-color: var(--bg);
+}
+
+section.image-only figure img {
+    object-fit: contain !important;
+}
+
+section.image-only header,
+section.image-only footer {
+    display: none;
+}
+
+section.image-only[data-marpit-pagination]::after {
+    display: none;
+}
+
+/* Chapter title slides（各トピック導入。chapter と連続させない用） */
+section.chapter-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 90px;
+    border-left: 6px solid rgba(255, 255, 255, 0.45);
+}
+
+section.chapter-title header,
+section.chapter-title footer {
+    display: none;
+}
+
+section.chapter-title[data-marpit-pagination]::after {
+    display: none;
+}
+
+section.chapter-title h2 {
+    font-size: 2.4em;
+    font-weight: 900;
+    color: #ffffff;
+    margin-bottom: 0.3em;
+    letter-spacing: -0.02em;
+}
+
+section.chapter-title p {
+    font-size: 0.88em;
+    color: var(--muted);
+    margin-top: 0.2em;
 }
