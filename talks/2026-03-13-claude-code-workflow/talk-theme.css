@@ -1,0 +1,282 @@
+/* @theme talk-theme */
+
+@import 'default';
+
+:root {
+    --bg: #1e2130;
+    --bg-soft: #282d3e;
+    --fg: #f5f7fa;
+    --muted: #a3aab4;
+    --line: rgba(255, 255, 255, 0.24);
+    --accent: #d4d9e1;
+    --code-bg: #1a1e2c;
+    --quote-bg: rgba(255, 255, 255, 0.06);
+    --shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+    --icon-url: url('https://assets.ratete.dev/images/profile/icon.png');
+    --content-max-width: 1020px;
+}
+
+section {
+    position: relative;
+    box-sizing: border-box;
+    width: 1280px;
+    height: 720px;
+    padding: 122px 78px 74px 78px;
+    background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.07), transparent 22%),
+        linear-gradient(145deg, #2e3347 0%, #1e2130 58%, #181c2a 100%);
+    color: var(--fg);
+    font-family: "Aptos", "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+    font-size: 29px;
+    line-height: 1.4;
+}
+
+/* Header */
+header {
+    position: absolute;
+    top: 28px;
+    left: 78px;
+    right: 122px;
+    height: 44px;
+    color: rgba(245, 247, 250, 0.92);
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+}
+
+/* Footer */
+footer {
+    position: absolute;
+    left: 78px;
+    right: 220px;
+    bottom: 28px;
+    color: var(--muted);
+    font-size: 26px;
+    line-height: 1.15;
+    padding-left: 60px;
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background-image: var(--icon-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: translateY(-50%);
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.14),
+        0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+footer a {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+/* ページ番号 */
+section[data-marpit-pagination]::after {
+    content: attr(data-marpit-pagination);
+    position: absolute;
+    right: 38px;
+    bottom: 30px;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(245, 247, 250, 0.78);
+    background: none;
+    box-shadow: none;
+}
+
+/* 本文の横幅を少し制限 */
+section > h1,
+section > h2,
+section > h3,
+section > h4,
+section > h5,
+section > p,
+section > ul,
+section > ol,
+section > blockquote,
+section > pre,
+section > table,
+section > figure,
+section > div,
+section > math,
+section > mjx-container {
+    max-width: var(--content-max-width);
+}
+
+code {
+    font-family: "JetBrains Mono", "SFMono-Regular", "Consolas", monospace;
+    font-size: 0.85em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin: 0 0 0.5em;
+    color: var(--fg);
+    line-height: 1.16;
+    font-weight: 800;
+}
+
+h1 {
+    font-size: 1.85em;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    font-size: 1.18em;
+    letter-spacing: -0.01em;
+    color: rgba(245, 247, 250, 0.92);
+    font-weight: 600;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+h4 {
+    font-size: 0.9em;
+    color: #dbe1ea;
+}
+
+h5 {
+    font-size: 0.72em;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+section.chapter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 72px;
+    text-align: center;
+    background: var(--bg);
+}
+
+section.chapter header,
+section.chapter footer {
+    display: none;
+}
+
+section.chapter[data-marpit-pagination]::after {
+    display: none;
+}
+
+section.chapter h1 {
+    margin: 0;
+    font-size: 3.2em;
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+}
+
+p,
+ul,
+ol {
+    margin-top: 0.34em;
+    margin-bottom: 0.58em;
+}
+
+strong {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+em {
+    color: #d7dde7;
+}
+
+ul,
+ol {
+    padding-left: 1.2em;
+}
+
+li {
+    margin: 0.25em 0;
+}
+
+blockquote {
+    margin: 0.8em 0;
+    padding: 0.55em 0.9em;
+    color: #eef2f7;
+    background: var(--quote-bg);
+    border-left: 4px solid rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+}
+
+pre {
+    margin: 0.8em 0 0;
+    padding: 18px 20px;
+    background: var(--code-bg);
+    color: #f3f5f8;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: auto;
+}
+
+pre code {
+    display: block;
+    font-size: 0.76em;
+    line-height: 1.45;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+mjx-container {
+    color: #ffffff !important;
+}
+
+img {
+    border-radius: 18px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+}
+
+section.title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 120px;
+    background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.09), transparent 20%),
+        linear-gradient(155deg, #303550 0%, #1e2136 62%, #181c2e 100%);
+}
+
+section.title h1 {
+    margin-bottom: 0.28em;
+    font-size: 2.15em;
+}
+
+section.title h2 {
+    font-size: 1.02em;
+    color: #d9dfe8;
+}
+
+section.closing-qr footer {
+    display: none;
+}
+
+section.closing-qr[data-marpit-pagination]::after {
+    display: none;
+}
