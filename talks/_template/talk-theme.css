@@ -236,12 +236,32 @@ pre code {
 
 table {
     border-collapse: collapse;
+    background: transparent;
+}
+
+thead {
+    background: transparent;
+}
+
+tr {
+    background: transparent !important;
+}
+
+tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.04) !important;
 }
 
 th,
 td {
     padding: 10px 14px;
+    background: transparent !important;
+    color: var(--fg) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+th {
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 mjx-container {
